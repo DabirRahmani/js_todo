@@ -1,36 +1,33 @@
+import { useContext } from "react";
+import { ListContext } from "./list-context/ListContext";
+
 export function ListDisplay(props) {
-    return (
-      <ul className="taskList">
-        {props.listItems?.map((item, index) => (
-          <ListItem
-            key={index}
-            index={index}
-            taskDesc={item.description}
-            isCompleted={item.isCompleted}
-            itemCompleter={props.itemCompleter}
-            itemRemover={props.itemRemover}
-          />
-        ))}
-      </ul>
-    );
-  }
-  
-  function ListItem(props) {
-    return (
-      <li>
-        <input
-          type="checkbox"
-          onChange={(event) => props.itemCompleter(event, props.index)}
-          checked={props.isCompleted}
+  const { list } = useContext(ListContext);
+  return (
+    <ul className="taskList">
+      {list?.map((item, index) => (
+        <ListItem
+          key={index}
+          index={index}
+          taskDesc={item.description}
+          isCompleted={item.isCompleted}
         />
-        <span className={props.isCompleted ? "itemCompleted" : null}>
-          {props.taskDesc}
-        </span>
-        <button
-          onClick={() => props.itemRemover(props.index)}
-          className="fa fa-trash"
-        />
-      </li>
-    );
-  }
-  
+      ))}
+    </ul>
+  );
+}
+
+function ListItem({ index, isCompleted, taskDesc }) {
+  const { removeFromList, itemCompleter } = useContext(ListContext);
+  return (
+    <li>
+      <input
+        type="checkbox"
+        onChange={(event) => itemCompleter(event, index)}
+        checked={isCompleted}
+      />
+      <span className={isCompleted ? "itemCompleted" : null}>{taskDesc}</span>
+      <button onClick={() => removeFromList(index)} className="fa fa-trash" />
+    </li>
+  );
+}

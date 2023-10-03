@@ -1,22 +1,31 @@
-export function ListInputUI(props) {
+import { useContext, useState } from "react";
+import { ListContext } from "./list-context/ListContext";
+
+export function ListInputUI() {
+  const [input, setInput] = useState("");
+
+  const { addToList, ischanged, submitList } = useContext(ListContext);
+
   return (
     <div className="ListInputUI">
       <input
         type="text"
         className="taskInput"
         placeholder="Enter a task"
-        onChange={props.getInputValue}
-        value={props.nextItem}
-        style={{ width: props.saveButtonStatus ? 200 : 260 }}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+        value={input}
+        style={{ width: ischanged ? 200 : 260 }}
       />
       <button
-        onClick={() => props.itemAdder()}
+        onClick={() => addToList(input)}
         className="taskButton fa fa-fw fa-plus"
       />
-      {props.saveButtonStatus ? (
+      {ischanged ? (
         <button
           onClick={() => {
-            if (props.saveButtonStatus) props.itemSaver();
+            if (ischanged) submitList();
           }}
           className="ListInputUISaveBtn fa fa-fw fa-save"
           style={{ backgroundColor: "#3341ff" }}
