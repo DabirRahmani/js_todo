@@ -13,8 +13,10 @@ function ListContextProvider({ children }) {
   }, []);
 
   const addToList = (item) => {
-    setIsChanged(true);
-    setList([...list, { description: item, isCompleted: false }]);
+    if (item !== "") {
+      setIsChanged(true);
+      setList([...list, { description: item, isCompleted: false }]);
+    }
   };
 
   const removeFromList = (index) => {

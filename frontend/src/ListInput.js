@@ -19,7 +19,10 @@ export function ListInputUI() {
         style={{ width: ischanged ? 200 : 260 }}
       />
       <button
-        onClick={() => addToList(input)}
+        onClick={() => {
+          addToList(input);
+          setInput("");
+        }}
         className="taskButton fa fa-fw fa-plus"
       />
       {ischanged ? (
